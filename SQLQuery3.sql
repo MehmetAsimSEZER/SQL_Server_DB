@@ -16,51 +16,41 @@ insert Origin (Country) values ('UK')
 
 select * from Origin
 
-create table [dbo].[Brand]
+
+CREATE TABLE [dbo].[Brand]
 (
 		[BrandId] INT IDENTITY (1,1) PRIMARY KEY,
 		[Name] NVARCHAR (25) NOT NULL,
-
+		[OriginId] INT NOT NULL,
+		CONSTRAINT [FK_Brand_OriginId] FOREIGN KEY ([OriginId]) REFERENCES [dbo].[Origin]([OriginId])
 )
 
-alter table Brand add OriginId int;
-alter table Brand add foreign key(OriginId) references Origin(OriginId);
 
-insert Brand (Name) values ('AUDI')
-insert Brand (Name) values ('BMW')
-insert Brand (Name) values ('Chevrolet')
-insert Brand (Name) values ('Citroen')
-insert Brand (Name) values ('Dodge')
-insert Brand (Name) values ('Ford')
-insert Brand (Name) values ('Ferrari')
-insert Brand (Name) values ('Honda')
-insert Brand (Name) values ('Mercedes')
-insert Brand (Name) values ('Opel')
-insert Brand (Name) values ('Peugeot')
-insert Brand (Name) values ('Porche')
-insert Brand (Name) values ('Renault')
-insert Brand (Name) values ('Seat')
-insert Brand (Name) values ('Skoda')
-insert Brand (Name) values ('Volkswagen')
-insert Brand (Name) values ('LandRover')
+insert Brand (Name,OriginId) values ('AUDI',1)
+insert Brand (Name,OriginId) values ('BMW',1)
+insert Brand (Name,OriginId) values ('Chevrolet',5)
+insert Brand (Name,OriginId) values ('Citroen',2)
+insert Brand (Name,OriginId) values ('Dodge',5)
+insert Brand (Name,OriginId) values ('Ford',5)
+insert Brand (Name,OriginId) values ('Ferrari',3)
+insert Brand (Name,OriginId) values ('Honda',4)
+insert Brand (Name,OriginId) values ('Mercedes',1)
+insert Brand (Name,OriginId) values ('Opel',2)
+insert Brand (Name,OriginId) values ('Peugeot',2)
+insert Brand (Name,OriginId) values ('Porche',1)
+insert Brand (Name,OriginId) values ('Renault',2)
+insert Brand (Name,OriginId) values ('Seat',1)
+insert Brand (Name,OriginId) values ('Skoda',1)
+insert Brand (Name,OriginId) values ('Volkswagen',1)
+insert Brand (Name,OriginId) values ('LandRover',6)
 
 
-
-update Brand set OriginId = 1 where Name = 'AUDI';
-update brand set originid = 1 where name in ('BMW','Volkswagen','Porche'); 
-update brand set originid = (select originId from Origin where Country='France') where name in ('Peugeot','Renault','Citroen','Opel')
-update Brand set OriginId = 1 where Name ='Mercedes';
-update Brand set OriginId = 1 where Name in ('Seat','Skoda');
-update Brand set OriginId = (select OriginId from Origin where Country='USA')WHERE NAME in ('Ford','Chevrolet','Dodge')
-update Brand set OriginId = 4 where Name = 'Honda';
-update Brand set OriginId = 3 where Name = 'Ferrari';
-update Brand set OriginId = 6 where Name = 'LandRover';
 
 select * from Brand
 
 
 
-create table [dbo].[Vehicle]
+CREATE TABLE [dbo].[Vehicle]
 (
 		[VehicleId] INT IDENTITY (1,1) PRIMARY KEY,
 		[Type] NVARCHAR (25) NOT NULL,
@@ -78,167 +68,105 @@ insert Vehicle (Type) values ('sport');
 
 select * from Vehicle;
 
-create	table [dbo].[ModelSpec]
+
+
+CREATE TABLE [dbo].[ModelSpec]
 (
 		[ModelSpecId] INT IDENTITY (1,1) PRIMARY KEY,
 		[ModelName] NVARCHAR (30) NOT NULL,
+		[BrandId] INT NOT NULL,
+		[VehicleId] INT NOT NULL,
+		CONSTRAINT [FK_ModelSpec_BrandId] FOREIGN KEY ([BrandId]) REFERENCES [dbo].[Brand]([BrandId]),
+		CONSTRAINT [FK_ModelSpec_VehicleId]	FOREIGN KEY ([VehicleId]) REFERENCES [dbo].[Vehicle]([VehicleId])
 
 )
 
 
-alter table ModelSpec add BrandId int;
-alter table ModelSpec add Foreign key (BrandId) References Brand(BrandId); 
-
-
-alter table ModelSpec add VehicleId int;
-alter table ModelSpec add Foreign key (VehicleId) References Vehicle(VehicleId); 
-
-
-insert ModelSpec (ModelName) values ('A180');
-insert ModelSpec (ModelName) values ('A200');
-insert ModelSpec (ModelName) values ('C180');
-insert ModelSpec (ModelName) values ('C200');
-insert ModelSpec (ModelName) values ('E200');
-insert ModelSpec (ModelName) values ('E250');
-insert ModelSpec (ModelName) values ('E350');
-insert ModelSpec (ModelName) values ('S400');
-insert ModelSpec (ModelName) values ('S500');
-insert ModelSpec (ModelName) values ('S580');
-insert ModelSpec (ModelName) values ('G63');
-insert ModelSpec (ModelName) values ('X250');
-insert ModelSpec (ModelName) values ('A3');
-insert ModelSpec (ModelName) values ('A4');
-insert ModelSpec (ModelName) values ('A5');
-insert ModelSpec (ModelName) values ('A6');
-insert ModelSpec (ModelName) values ('A7');
-insert ModelSpec (ModelName) values ('A8');
-insert ModelSpec (ModelName) values ('A8L');
-insert ModelSpec (ModelName) values ('Q5');
-insert ModelSpec (ModelName) values ('Q7');
-insert ModelSpec (ModelName) values ('SQ7');
-insert ModelSpec (ModelName) values ('RS5');
-insert ModelSpec (ModelName) values ('RS6');
-insert ModelSpec (ModelName) values ('RS7');
-insert ModelSpec (ModelName) values ('RSQ8');
-insert ModelSpec (ModelName) values ('3.20');
-insert ModelSpec (ModelName) values ('4.20');
-insert ModelSpec (ModelName) values ('5.20');
-insert ModelSpec (ModelName) values ('5.30');
-insert ModelSpec (ModelName) values ('7.45');
-insert ModelSpec (ModelName) values ('8.50');
-insert ModelSpec (ModelName) values ('M3');
-insert ModelSpec (ModelName) values ('M5');
-insert ModelSpec (ModelName) values ('M6');
-insert ModelSpec (ModelName) values ('M8');
-insert ModelSpec (ModelName) values ('911');
-insert ModelSpec (ModelName) values ('Panamera');
-insert ModelSpec (ModelName) values ('Cayanne');
-insert ModelSpec (ModelName) values ('Arteon');
-insert ModelSpec (ModelName) values ('Passat');
-insert ModelSpec (ModelName) values ('Golf');
-insert ModelSpec (ModelName) values ('Polo');
-insert ModelSpec (ModelName) values ('208');
-insert ModelSpec (ModelName) values ('308');
-insert ModelSpec (ModelName) values ('508');
-insert ModelSpec (ModelName) values ('2008');
-insert ModelSpec (ModelName) values ('3008');
-insert ModelSpec (ModelName) values ('5008');
-insert ModelSpec (ModelName) values ('Insignia');
-insert ModelSpec (ModelName) values ('Astra');
-insert ModelSpec (ModelName) values ('Corsa');
-insert ModelSpec (ModelName) values ('C3');
-insert ModelSpec (ModelName) values ('C4');
-insert ModelSpec (ModelName) values ('C5');
-insert ModelSpec (ModelName) values ('C3Aircross');
-insert ModelSpec (ModelName) values ('C5Aircross');
-insert ModelSpec (ModelName) values ('Talisman');
-insert ModelSpec (ModelName) values ('Megane');
-insert ModelSpec (ModelName) values ('Clio');
-insert ModelSpec (ModelName) values ('Focus');
-insert ModelSpec (ModelName) values ('Mustang');
-insert ModelSpec (ModelName) values ('CamaroSS');
-insert ModelSpec (ModelName) values ('Cruze');
-insert ModelSpec (ModelName) values ('Charger');
-insert ModelSpec (ModelName) values ('Challenger');
-insert ModelSpec (ModelName) values ('Civic');
-insert ModelSpec (ModelName) values ('Accord');
-insert ModelSpec (ModelName) values ('Leon');
-insert ModelSpec (ModelName) values ('Ibıza');
-insert ModelSpec (ModelName) values ('Superb');
-insert ModelSpec (ModelName) values ('Octavia');
-insert ModelSpec (ModelName) values ('SF90');
-insert ModelSpec (ModelName) values ('F8');
-insert ModelSpec (ModelName) values ('Roma');
-insert ModelSpec (ModelName) values ('Discovery');
-insert ModelSpec (ModelName) values ('Defender');
-insert ModelSpec (ModelName) values ('RangeRover');
-
-
-update ModelSpec set BrandId = (select BrandId from Brand where name = 'Mercedes') where ModelName in ('A180','A200','C180','C200','E200','E250','E350','S400','S500','S580','G63','X250');
-update ModelSpec set BrandId = (select BrandId from Brand where name = 'Audı')  where ModelName in ('A3','A4','A5','A6','A7','A8','A8L','Q5','Q7','SQ7','RS5','RS6','RS7','RSQ8');
-update ModelSpec set BrandId = (select BrandId from Brand where name = 'Bmw') where ModelName in ('3.20','4.20','5.20','5.30','7.45','8.50','M3','M5','M6','M8');
-update ModelSpec set BrandId = (select BrandId from Brand where name = 'Peugeot') where ModelName in ('208','308','508','2008','3008','5008');
-update ModelSpec set BrandId = (select BrandId from Brand where name = 'Porche') where ModelName in ('911','Panamera','Cayanne');
-update ModelSpec set BrandId = (select BrandId from Brand where name = 'Volkswagen') where ModelName in ('Arteon','Passat','Golf','Polo');
-update ModelSpec set BrandId = (select BrandId from Brand where name = 'Opel') where ModelName in ('Insignia','Astra','Corsa');
-update ModelSpec set BrandId = (select BrandId from Brand where name = 'Citroen') where ModelName in ('C3','C4','C5','C3Aircross','C5Aircross');
-update ModelSpec set BrandId = (select BrandId from Brand where name = 'Renault') where ModelName in ('Talisman','Megane','Clio');
-update ModelSpec set BrandId = (select BrandId from Brand where name = 'Ford') where ModelName in ('Focus','Mustang');
-update ModelSpec set BrandId = (select BrandId from Brand where name = 'Chevrolet') where ModelName in ('CamaroSS','Cruze');
-update ModelSpec set BrandId = (select BrandId from Brand where name = 'Dodge') where ModelName in ('Charger','Challenger');
-update ModelSpec set BrandId = (select BrandId from Brand where name = 'Honda') where ModelName in ('Civic','Accord');
-update ModelSpec set BrandId = (select BrandId from Brand where name = 'Seat') where ModelName in ('Ibiza','Leon');
-update ModelSpec set BrandId = (select BrandId from Brand where name = 'Skoda') where ModelName in ('Superb','Octavia');
-update ModelSpec set BrandId = (select BrandId from Brand where name = 'Ferrari') where ModelName in ('SF90','F8','Roma');
-update ModelSpec set BrandId = (select BrandId from Brand where name = 'LandRover') where ModelName in ('Discovery','Defender','RangeRover');
-
-
-
-update ModelSpec set VehicleId = (select VehicleId from Vehicle where Type = 'Suv') where ModelName in ('Discovery','Defender','RangeRover');
-update ModelSpec set VehicleId = (select VehicleId from Vehicle where Type = 'Sedan') where ModelName in ('Superb','Octavia');
-update ModelSpec set VehicleId = (select VehicleId from Vehicle where Type = 'Coupe') where ModelName in ('CamaroSS');
-update ModelSpec set VehicleId = (select VehicleId from Vehicle where Type = 'Sedan') where ModelName in ('Cruze');
-update ModelSpec set VehicleId = (select VehicleId from Vehicle where Type = 'Sedan') where ModelName in ('Charger');
-update ModelSpec set VehicleId = (select VehicleId from Vehicle where Type = 'Coupe') where ModelName in ('Challenger');
-update ModelSpec set VehicleId = (select VehicleId from Vehicle where Type = 'Coupe') where ModelName in ('Mustang');
-update ModelSpec set VehicleId = (select VehicleId from Vehicle where Type = 'Sedan') where ModelName in ('Focus');
-update ModelSpec set VehicleId = (select VehicleId from Vehicle where Type = 'Sedan') where ModelName in ('Civic','Accord');
-update ModelSpec set VehicleId = (select VehicleId from Vehicle where Type = 'Hatchback') where ModelName in ('Ibiza','Leon');
-update ModelSpec set VehicleId = (select VehicleId from Vehicle where Type = 'Sedan') where ModelName in ('Talisman','Megane');
-update ModelSpec set VehicleId = (select VehicleId from Vehicle where Type = 'Hatchback') where ModelName in ('Clio');
-update ModelSpec set VehicleId = (select VehicleId from Vehicle where Type = 'Hatchback') where ModelName in ('C3','C4');
-update ModelSpec set VehicleId = (select VehicleId from Vehicle where Type = 'Sedan') where ModelName in ('C5');
-update ModelSpec set VehicleId = (select VehicleId from Vehicle where Type = 'Suv') where ModelName in ('C3Aircross','C5Aircross');
-update ModelSpec set VehicleId = (select VehicleId from Vehicle where Type = 'Sedan') where ModelName in ('Insignia','Astra');
-update ModelSpec set VehicleId = (select VehicleId from Vehicle where Type = 'Hatchback') where ModelName in ('Corsa');
-update ModelSpec set VehicleId = (select VehicleId from Vehicle where Type = 'Suv') where ModelName in ('2008','3008','5008');
-update ModelSpec set VehicleId = (select VehicleId from Vehicle where Type = 'Hatchback') where ModelName in ('208','308');
-update ModelSpec set VehicleId = (select VehicleId from Vehicle where Type = 'Sedan') where ModelName in ('508');
-update ModelSpec set VehicleId = (select VehicleId from Vehicle where Type = 'Station') where ModelName in ('Panamera');
-update ModelSpec set VehicleId = (select VehicleId from Vehicle where Type = 'Suv') where ModelName in ('Cayanne');
-update ModelSpec set VehicleId = (select VehicleId from Vehicle where Type = 'Sedan') where ModelName in ('Arteon','Passat');
-update ModelSpec set VehicleId = (select VehicleId from Vehicle where Type = 'Hatchback') where ModelName in ('Golf','Polo');
-update ModelSpec set VehicleId = (select VehicleId from Vehicle where Type = 'Sedan') where ModelName in ('3.20','4.20','5.20','5.30','7.45','8.50')
-update ModelSpec set VehicleId = (select VehicleId from Vehicle where Type = 'Coupe') where ModelName in ('M3','M5','M6','M8');
-update ModelSpec set VehicleId = (select VehicleId from Vehicle where Type = 'Suv') where ModelName in ('Q5','Q7','SQ7','RSQ8');
-update ModelSpec set VehicleId = (select VehicleId from Vehicle where Type = 'Sedan') where ModelName in ('A4','A5','A6','A7','A8','A8L')
-update ModelSpec set VehicleId = (select VehicleId from Vehicle where Type = 'Sedan') where ModelName in ('A200','C180','C200','E200','E250','E350','S400','S500','S580')
-update ModelSpec set VehicleId = (select VehicleId from Vehicle where Type = 'Hatchback') where ModelName in ('A180','A3');
-update ModelSpec set VehicleId = (select VehicleId from Vehicle where Type = 'Suv') where ModelName in ('G63','X250');
-update ModelSpec set VehicleId = (select VehicleId from Vehicle where Type = 'Station') where ModelName in ('RS6');
-update ModelSpec set VehicleId = (select VehicleId from Vehicle where Type = 'Coupe') where ModelName in ('RS5');
-update ModelSpec set VehicleId = (select VehicleId from Vehicle where Type = 'Sedan') where ModelName in ('RS7');
-update ModelSpec set VehicleId = (select VehicleId from Vehicle where Type = 'Sport') where ModelName in ('911','SF90','F8','Roma');
-
-
-
+insert ModelSpec (ModelName,BrandId,VehicleId) values ('A180',9,5);
+insert ModelSpec (ModelName,BrandId,VehicleId) values ('A200',9,2);
+insert ModelSpec (ModelName,BrandId,VehicleId) values ('C180',9,2);
+insert ModelSpec (ModelName,BrandId,VehicleId) values ('C200',9,2);
+insert ModelSpec (ModelName,BrandId,VehicleId) values ('E200',9,2);
+insert ModelSpec (ModelName,BrandId,VehicleId) values ('E250',9,2);
+insert ModelSpec (ModelName,BrandId,VehicleId) values ('E350',9,2);
+insert ModelSpec (ModelName,BrandId,VehicleId) values ('S400',9,2);
+insert ModelSpec (ModelName,BrandId,VehicleId) values ('S500',9,2);
+insert ModelSpec (ModelName,BrandId,VehicleId) values ('S580',9,2);
+insert ModelSpec (ModelName,BrandId,VehicleId) values ('G63',9,1);
+insert ModelSpec (ModelName,BrandId,VehicleId) values ('X250',9,1);
+insert ModelSpec (ModelName,BrandId,VehicleId) values ('A3',1,5);
+insert ModelSpec (ModelName,BrandId,VehicleId) values ('A4',1,2);
+insert ModelSpec (ModelName,BrandId,VehicleId) values ('A5',1,2);
+insert ModelSpec (ModelName,BrandId,VehicleId) values ('A6',1,2);
+insert ModelSpec (ModelName,BrandId,VehicleId) values ('A7',1,2);
+insert ModelSpec (ModelName,BrandId,VehicleId) values ('A8',1,2);
+insert ModelSpec (ModelName,BrandId,VehicleId) values ('A8L',1,2);
+insert ModelSpec (ModelName,BrandId,VehicleId) values ('Q5',1,1);
+insert ModelSpec (ModelName,BrandId,VehicleId) values ('Q7',1,1);
+insert ModelSpec (ModelName,BrandId,VehicleId) values ('SQ7',1,1);
+insert ModelSpec (ModelName,BrandId,VehicleId) values ('RS5',1,3);
+insert ModelSpec (ModelName,BrandId,VehicleId) values ('RS6',1,4);
+insert ModelSpec (ModelName,BrandId,VehicleId) values ('RS7',1,2);
+insert ModelSpec (ModelName,BrandId,VehicleId) values ('RSQ8',1,1);
+insert ModelSpec (ModelName,BrandId,VehicleId) values ('3.20',2,2);
+insert ModelSpec (ModelName,BrandId,VehicleId) values ('4.20',2,3);
+insert ModelSpec (ModelName,BrandId,VehicleId) values ('5.20',2,2);
+insert ModelSpec (ModelName,BrandId,VehicleId) values ('5.30',2,2);
+insert ModelSpec (ModelName,BrandId,VehicleId) values ('7.45',2,2);
+insert ModelSpec (ModelName,BrandId,VehicleId) values ('8.50',2,2);
+insert ModelSpec (ModelName,BrandId,VehicleId) values ('M3',2,3);
+insert ModelSpec (ModelName,BrandId,VehicleId) values ('M5',2,3);
+insert ModelSpec (ModelName,BrandId,VehicleId) values ('M6',2,3);
+insert ModelSpec (ModelName,BrandId,VehicleId) values ('M8',2,3);
+insert ModelSpec (ModelName,BrandId,VehicleId) values ('911',12,6);
+insert ModelSpec (ModelName,BrandId,VehicleId) values ('Panamera',12,4);
+insert ModelSpec (ModelName,BrandId,VehicleId) values ('Cayanne',12,1);
+insert ModelSpec (ModelName,BrandId,VehicleId) values ('Arteon',16,2);
+insert ModelSpec (ModelName,BrandId,VehicleId) values ('Passat',16,2);
+insert ModelSpec (ModelName,BrandId,VehicleId) values ('Golf',16,5);
+insert ModelSpec (ModelName,BrandId,VehicleId) values ('Polo',16,5);
+insert ModelSpec (ModelName,BrandId,VehicleId) values ('208',11,5);
+insert ModelSpec (ModelName,BrandId,VehicleId) values ('308',11,5);
+insert ModelSpec (ModelName,BrandId,VehicleId) values ('508',11,5);
+insert ModelSpec (ModelName,BrandId,VehicleId) values ('2008',11,1);
+insert ModelSpec (ModelName,BrandId,VehicleId) values ('3008',11,1);
+insert ModelSpec (ModelName,BrandId,VehicleId) values ('5008',11,1);
+insert ModelSpec (ModelName,BrandId,VehicleId) values ('Insignia',10,2);
+insert ModelSpec (ModelName,BrandId,VehicleId) values ('Astra',10,2);
+insert ModelSpec (ModelName,BrandId,VehicleId) values ('Corsa',10,5);
+insert ModelSpec (ModelName,BrandId,VehicleId) values ('C3',4,5);
+insert ModelSpec (ModelName,BrandId,VehicleId) values ('C4',4,5);
+insert ModelSpec (ModelName,BrandId,VehicleId) values ('C5',4,5);
+insert ModelSpec (ModelName,BrandId,VehicleId) values ('C3Aircross',4,1);
+insert ModelSpec (ModelName,BrandId,VehicleId) values ('C5Aircross',4,1);
+insert ModelSpec (ModelName,BrandId,VehicleId) values ('Talisman',13,2);
+insert ModelSpec (ModelName,BrandId,VehicleId) values ('Megane',13,2);
+insert ModelSpec (ModelName,BrandId,VehicleId) values ('Clio',13,5);
+insert ModelSpec (ModelName,BrandId,VehicleId) values ('Focus',6,2);
+insert ModelSpec (ModelName,BrandId,VehicleId) values ('Mustang',6,3);
+insert ModelSpec (ModelName,BrandId,VehicleId) values ('CamaroSS',3,3);
+insert ModelSpec (ModelName,BrandId,VehicleId) values ('Cruze',3,2);
+insert ModelSpec (ModelName,BrandId,VehicleId) values ('Charger',5,2);
+insert ModelSpec (ModelName,BrandId,VehicleId) values ('Challenger',5,3);
+insert ModelSpec (ModelName,BrandId,VehicleId) values ('Civic',8,2);
+insert ModelSpec (ModelName,BrandId,VehicleId) values ('Accord',8,2);
+insert ModelSpec (ModelName,BrandId,VehicleId) values ('Leon',14,5);
+insert ModelSpec (ModelName,BrandId,VehicleId) values ('Ibıza',14,5);
+insert ModelSpec (ModelName,BrandId,VehicleId) values ('Superb',15,2);
+insert ModelSpec (ModelName,BrandId,VehicleId) values ('Octavia',15,2);
+insert ModelSpec (ModelName,BrandId,VehicleId) values ('SF90',7,6);
+insert ModelSpec (ModelName,BrandId,VehicleId) values ('F8',7,6);
+insert ModelSpec (ModelName,BrandId,VehicleId) values ('Roma',7,6);
+insert ModelSpec (ModelName,BrandId,VehicleId) values ('Discovery',17,1);
+insert ModelSpec (ModelName,BrandId,VehicleId) values ('Defender',17,1);
+insert ModelSpec (ModelName,BrandId,VehicleId) values ('RangeRover',17,1);
 insert ModelSpec (ModelName,BrandId,VehicleId) values ('A180',9,2);
 insert ModelSpec (ModelName,BrandId,VehicleId) values ('Focus',6,5);
+insert ModelSpec (ModelName,BrandId,VehicleId) values ('A3',1,2);	  
 
 
 
 select * from ModelSpec;
-
 
 
 select Name,ModelName,Type,Country from ModelSpec m 
@@ -248,10 +176,6 @@ inner join Origin o
 on o.OriginId = b.OriginId
 inner join Vehicle v
 on v.VehicleId = m.VehicleId
-where Type = 'Sedan'
-
-
-
 
 
 
